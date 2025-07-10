@@ -41,35 +41,45 @@ class TrabajadorInfoFragment : Fragment() {
         // Configura RecyclerView de reviews
         binding.rvReviews.layoutManager = LinearLayoutManager(requireContext())
 
-        // Observa cambios en el trabajador
+
         viewModel.trabajador.observe(viewLifecycleOwner) { trabajador ->
             if (trabajador != null) {
                 bindTrabajador(trabajador)
             } else {
                 Toast.makeText(requireContext(), "Trabajador no encontrado", Toast.LENGTH_SHORT).show()
-                // Opcional: puedes navegar hacia atrás aquí si quieres
+
             }
         }
 
-        // Llama a cargar los datos
+
         viewModel.cargarTrabajador(requireContext(), trabajadorId)
 
         binding.btnContactar.setOnClickListener {
             val trabajador = viewModel.trabajador.value
             val categoriaId = trabajador?.categories?.firstOrNull()?.id
             if (trabajador != null && categoriaId != null) {
-                // Llamar al ViewModel para crear la cita
-                viewModel.crearCita(requireContext(), trabajador.id, categoriaId) { cita ->
-                    if (cita != null) {
-                        // Navegar al ChatFragment con el id de la cita creada
+                viewModel.obtenerCitaExistente(requireContext(), trabajador.id, categoriaId) { citaExistente ->
+                    if (citaExistente != null) {
                         val action = TrabajadorInfoFragmentDirections
                             .actionTrabajadorInfoFragmentToChatFragment(
-                                citaId = cita.id,
+                                citaId = citaExistente.id,
                                 trabajadorId = trabajador.id
                             )
                         findNavController().navigate(action)
                     } else {
-                        Toast.makeText(requireContext(), "No se pudo crear la cita", Toast.LENGTH_SHORT).show()
+                        // Si no existe, crea la cita y navega
+                        viewModel.crearCita(requireContext(), trabajador.id, categoriaId) { cita ->
+                            if (cita != null) {
+                                val action = TrabajadorInfoFragmentDirections
+                                    .actionTrabajadorInfoFragmentToChatFragment(
+                                        citaId = cita.id,
+                                        trabajadorId = trabajador.id
+                                    )
+                                findNavController().navigate(action)
+                            } else {
+                                Toast.makeText(requireContext(), "No se pudo crear la cita", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
                 }
             } else {

@@ -96,6 +96,16 @@ object ApiRepository {
             null
         }
     }
+    // OBTENER CITAS DEL USER
+    suspend fun getMisCitas(context: Context): List<CitaResponse>? {
+        return try {
+            RetrofitRepository.authApi(context).getMisCitas()
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+
     // OBTENER SHO :3
     suspend fun obtenerMe(context: Context): MeResponse? {
         return try {
@@ -108,6 +118,7 @@ object ApiRepository {
 
 
 }
+
 
 
 
