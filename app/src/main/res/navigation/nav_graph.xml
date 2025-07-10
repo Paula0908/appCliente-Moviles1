@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/LoginFragment">
+    <fragment
+        android:id="@+id/LoginFragment"
+        android:name="com.example.appcliente_moviles1.ui.fragments.LoginFragment"
+        android:label="fragment_first"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_LoginFragment_to_RegistroFragment"
+            app:destination="@id/RegistroFragment" />
+        <action
+            android:id="@+id/action_LoginFragment_CategoriasFragment"
+            app:destination="@id/CategoriasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RegistroFragment"
+        android:name="com.example.appcliente_moviles1.ui.fragments.RegistroFragment"
+        android:label="fragment_registro"
+        tools:layout="@layout/fragment_registro" >
+        <action
+            android:id="@+id/action_RegistroFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/CategoriasFragment"
+        android:name="com.example.appcliente_moviles1.ui.fragments.CategoriasFragment"
+        android:label="CategoriasFragment" >
+        <action
+            android:id="@+id/action_CategoriasFragment_to_TrabajadoresFragment"
+            app:destination="@id/TrabajadoresFragment" />
+        <action
+            android:id="@+id/action_CategoriasFragment_to_MisCitasFragment"
+            app:destination="@id/MisCitasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/TrabajadoresFragment"
+        android:name="com.example.appcliente_moviles1.ui.fragments.TrabajadoresFragment"
+        android:label="fragment_trabajadores"
+        tools:layout="@layout/fragment_trabajadores" >
+        <argument
+            android:name="categoriaId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_TrabajadoresFragment_to_TrabajadorInfoFragment"
+            app:destination="@id/TrabajadorInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/TrabajadorInfoFragment"
+        android:name="com.example.appcliente_moviles1.ui.fragments.TrabajadorInfoFragment"
+        android:label="fragment_trabajador_info"
+        tools:layout="@layout/fragment_trabajador_info" >
+        <argument android:name="trabajadorId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_TrabajadorInfoFragment_to_ChatFragment"
+            app:destination="@id/ChatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ChatFragment"
+        android:name="com.example.appcliente_moviles1.ui.fragments.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <argument
+            android:name="citaId"
+            app:argType="integer" />
+        <argument
+            android:name="trabajadorId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_ChatFragment_to_MapsFragment"
+            app:destination="@id/MapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/MisCitasFragment"
+        android:name="com.example.appcliente_moviles1.ui.fragments.MisCitasFragment"
+        android:label="fragment_mis_citas"
+        tools:layout="@layout/fragment_mis_citas" />
+    <fragment
+        android:id="@+id/MapsFragment"
+        android:name="com.example.appcliente_moviles1.ui.fragments.MapsFragment"
+        android:label="MapsFragment" />
+</navigation>

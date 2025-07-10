@@ -1,0 +1,105 @@
+package com.example.appcliente_moviles1.ui.fragments
+
+import android.app.AlertDialog
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.example.appcliente_moviles1.R
+import com.example.appcliente_moviles1.databinding.FragmentChatBinding
+import com.example.appcliente_moviles1.ui.adapters.ChatAdapter
+import com.example.appcliente_moviles1.viewmodels.ChatViewModel
+
+import kotlinx.coroutines.launch
+
+
+class ChatFragment : Fragment() {
+
+    private var _binding: FragmentChatBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: ChatViewModel by viewModels()
+
+    private val args: ChatFragmentArgs by navArgs()
+    private var adapter: ChatAdapter? = null
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentChatBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val citaId = args.citaId
+        val trabajadorId = args.trabajadorId
+
+
+        viewModel.cargarTrabajador(requireContext(), trabajadorId)
+
+        viewModel.trabajador.observe(viewLifecycleOwner) { trabajador ->
+            if (trabajador != null) {
+                binding.lblUserChat.text = "${trabajador.user.name} ${trabajador.user.last_name}"
+                if (!trabajador.picture_url.isNullOrBlank() && trabajador.picture_url != "null") {
+                    Glide.with(binding.fotoUser.context)
+                        .load(trabajador.picture_url)
+                        .into(binding.fotoUser)
+                } else {
+                    binding.fotoUser.setImageResource(android.R.drawable.sym_def_app_icon)
+                }
+            } else {
+                binding.lblUserChat.text = "Trabajador no encontrado"
+                binding.fotoUser.setImageResource(android.R.drawable.sym_def_app_icon)
+            }
+        }
+
+        adapter = ChatAdapter(emptyList(), trabajadorId)
+        binding.rvMensajes.adapter = adapter
+        binding.rvMensajes.layoutManager = LinearLayoutManager(requireContext())
+
+        viewModel.cargarMensajes(requireContext(), citaId)
+        viewModel.mensajes.observe(viewLifecycleOwner) { mensajes ->
+            adapter?.updateMensajes(mensajes, trabajadorId)
+            if (mensajes.isNotEmpty()) {
+                binding.rvMensajes.scrollToPosition(mensajes.size - 1)
+            }
+        }
+
+        binding.btnSendMensaje.setOnClickListener {
+            val texto = binding.inputMensaje.text.toString().trim()
+            if (texto.isNotEmpty()) {
+                viewModel.enviarMensaje(requireContext(), citaId, texto, trabajadorId)
+                binding.inputMensaje.text.clear()
+            }
+        }
+        binding.btnConcretarCita.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Concretar cita")
+                .setMessage("¿Está seguro que desea concretar una cita?")
+                .setPositiveButton("Sí") { dialog, _ ->
+                    findNavController().navigate(R.id.action_ChatFragment_to_MapsFragment)
+                    dialog.dismiss()
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
+    }
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+}

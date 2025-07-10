@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    tools:context=".ui.fragments.TrabajadorInfoFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTrabajador"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/fotoTrabajadorInfo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#B27DE1"
+                    android:contentDescription="Foto del trabajador"
+                    android:elevation="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_launcher_foreground" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/lblNombreInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre Completo"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:textColor="#272733"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/lblPromedioInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="4.7★"
+                        android:textAlignment="center"
+                        android:textColor="#FFA726"
+                        android:textSize="16sp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"/>
+
+                    <TextView
+                        android:id="@+id/lblTrabajosCompletos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="12 trabajos completados"
+                        android:textAlignment="center"
+                        android:textColor="#888"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/lblTrabajadorCategorias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Construcción, Plomería"
+                android:textAlignment="center"
+                android:textColor="#5640D4"
+                android:textSize="16sp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:textStyle="italic"/>
+
+            <TextView
+                android:id="@+id/lblUltimasReviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Últimas reseñas"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textColor="#8257F4"
+                android:textStyle="bold|italic"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvReviews"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:overScrollMode="ifContentScrolls"
+                android:paddingBottom="8dp"
+                android:clipToPadding="false"
+                android:background="#F5F2FF" />
+
+            <Button
+                android:id="@+id/btnContactar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Contactar"
+                android:textColor="#FFF"
+                android:backgroundTint="#8257F4"
+                android:textAllCaps="false"
+                android:textSize="17sp"
+                android:padding="12dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
