@@ -78,7 +78,11 @@
         android:id="@+id/MisCitasFragment"
         android:name="com.example.appcliente_moviles1.ui.fragments.MisCitasFragment"
         android:label="fragment_mis_citas"
-        tools:layout="@layout/fragment_mis_citas" />
+        tools:layout="@layout/fragment_mis_citas" >
+        <action
+            android:id="@+id/action_MisCitasFragment_to_ChatFragment"
+            app:destination="@id/ChatFragment" />
+    </fragment>
     <fragment
         android:id="@+id/MapsFragment"
         android:name="com.example.appcliente_moviles1.ui.fragments.MapsFragment"

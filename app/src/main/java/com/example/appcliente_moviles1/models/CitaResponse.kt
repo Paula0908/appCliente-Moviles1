@@ -10,5 +10,6 @@ data class CitaResponse(
     val latitude: Double?,
     val longitude: Double?,
     val status: Int,
-    // Puedes agregar worker, category, client si los usas luego
+   val worker: Trabajador?,
+    val category: Categoria?
 )
