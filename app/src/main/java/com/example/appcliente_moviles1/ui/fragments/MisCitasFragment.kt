@@ -32,12 +32,17 @@ class MisCitasFragment : Fragment() {
 
         adapter = CitasAdapter(emptyList()) { cita ->
             Toast.makeText(requireContext(), "ID de la cita: ${cita.id}", Toast.LENGTH_SHORT).show()
-            val action = MisCitasFragmentDirections
-                .actionMisCitasFragmentToChatFragment(
-                    citaId = cita.id,
-                    trabajadorId = cita.worker_id
-                )
-            findNavController().navigate(action)
+            if (cita.status == 3) {
+                Toast.makeText(requireContext(), "cita: ${cita.id} compeltada", Toast.LENGTH_SHORT).show()
+            }else{
+                val action = MisCitasFragmentDirections
+                    .actionMisCitasFragmentToChatFragment(
+                        citaId = cita.id,
+                        trabajadorId = cita.worker_id
+                    )
+                findNavController().navigate(action)
+            }
+     
         }
 
         binding.rvMisCitas.layoutManager = LinearLayoutManager(requireContext())

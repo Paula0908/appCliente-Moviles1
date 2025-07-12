@@ -2,8 +2,6 @@ package com.example.appcliente_moviles1.ui.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +11,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.appcliente_moviles1.R
 import com.example.appcliente_moviles1.databinding.FragmentChatBinding
 import com.example.appcliente_moviles1.ui.adapters.ChatAdapter
 import com.example.appcliente_moviles1.viewmodels.ChatViewModel
 
-import kotlinx.coroutines.launch
 
 
 class ChatFragment : Fragment() {
@@ -88,7 +84,11 @@ class ChatFragment : Fragment() {
                 .setTitle("Concretar cita")
                 .setMessage("¿Está seguro que desea concretar una cita?")
                 .setPositiveButton("Sí") { dialog, _ ->
-                    findNavController().navigate(R.id.action_ChatFragment_to_MapsFragment)
+                    val action = ChatFragmentDirections
+                        .actionChatFragmentToMapsFragment(
+                            citaId = citaId
+                        )
+                    findNavController().navigate(action)
                     dialog.dismiss()
                 }
                 .setNegativeButton("No") { dialog, _ ->

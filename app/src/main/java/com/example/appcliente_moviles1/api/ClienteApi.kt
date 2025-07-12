@@ -2,6 +2,7 @@ package com.example.appcliente_moviles1.api
 
 import com.example.appcliente_moviles1.models.Categoria
 import com.example.appcliente_moviles1.models.CitaResponse
+import com.example.appcliente_moviles1.models.ConcretarCitaInfo
 import com.example.appcliente_moviles1.models.CrearCitaBody
 import com.example.appcliente_moviles1.models.LoginResponse
 import com.example.appcliente_moviles1.models.MeResponse
@@ -78,6 +79,14 @@ interface ClienteApi {
     // Endpoint para obtener mis citas
     @GET("appointments")
     suspend fun getMisCitas(): List<CitaResponse>
+
+    // Endpoint para concretar una cita
+    @POST("appointments/{appointmentId}/make")
+    suspend fun concretarCita(
+        @Path("appointmentId") appointmentId: Int,
+        @Body datos: ConcretarCitaInfo
+    ): CitaResponse
+
 }
 
 

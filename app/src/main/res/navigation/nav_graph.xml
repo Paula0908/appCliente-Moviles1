@@ -86,5 +86,27 @@
     <fragment
         android:id="@+id/MapsFragment"
         android:name="com.example.appcliente_moviles1.ui.fragments.MapsFragment"
-        android:label="MapsFragment" />
+        android:label="MapsFragment" >
+        <action
+            android:id="@+id/action_MapsFragment_to_FechaHoraFragment"
+            app:destination="@id/FechaHoraFragment" />
+        <argument
+            android:name="citaId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/FechaHoraFragment"
+        android:name="com.example.appcliente_moviles1.ui.fragments.FechaHoraFragment"
+        android:label="fragment_fecha_hora"
+        tools:layout="@layout/fragment_fecha_hora" >
+        <argument
+            android:name="latitud"
+            app:argType="string" />
+        <argument
+            android:name="longitud"
+            app:argType="string" />
+        <argument
+            android:name="citaId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

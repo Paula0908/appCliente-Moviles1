@@ -3,6 +3,7 @@ package com.example.appcliente_moviles1.repositories
 import android.content.Context
 import com.example.appcliente_moviles1.models.Categoria
 import com.example.appcliente_moviles1.models.CitaResponse
+import com.example.appcliente_moviles1.models.ConcretarCitaInfo
 import com.example.appcliente_moviles1.models.CrearCitaBody
 import com.example.appcliente_moviles1.models.LoginResponse
 import com.example.appcliente_moviles1.models.MeResponse
@@ -114,7 +115,14 @@ object ApiRepository {
             null
         }
     }
-
+    // CONCRETAR CITA
+    suspend fun concretarCita(context: Context, appointmentId: Int, body: ConcretarCitaInfo): CitaResponse? {
+        return try {
+            RetrofitRepository.authApi(context).concretarCita(appointmentId, body)
+        } catch (e: Exception) {
+            null
+        }
+    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.appcliente_moviles1.ui.fragments
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.appcliente_moviles1.R
 import com.example.appcliente_moviles1.databinding.FragmentMapsBinding
 import com.google.android.gms.location.LocationServices
@@ -40,6 +42,7 @@ class MapsFragment : Fragment() {
     private val callback = OnMapReadyCallback { map ->
         googleMap = map
         checkLocationPermissionAndMove()
+        // No ponemos marcadores, porque el pin visual es un overlay centrado
     }
 
     override fun onCreateView(
@@ -53,6 +56,10 @@ class MapsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Obtiene los argumentos (usando Safe Args)
+        val args = MapsFragmentArgs.fromBundle(requireArguments())
+        val citaIde = args.citaId
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
 
@@ -64,7 +71,22 @@ class MapsFragment : Fragment() {
                 "Lat: ${center.latitude}, Lng: ${center.longitude}",
                 Toast.LENGTH_LONG
             ).show()
-            // Aquí haces lo que quieras con la coordenada.
+            AlertDialog.Builder(requireContext())
+                .setTitle("Ubicacion cita")
+                .setMessage("¿Está seguro que la ubicacion de la cita es correcta?")
+                .setPositiveButton("Sí") { dialog, _ ->
+                    val action = MapsFragmentDirections
+                        .actionMapsFragmentToFechaHoraFragment(
+                            latitud = center.latitude.toString(),
+                            longitud = center.longitude.toString(),
+                            citaId = citaIde
+                        )
+                    findNavController().navigate(action)
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
         }
     }
 
@@ -95,7 +117,6 @@ class MapsFragment : Fragment() {
                 if (location != null) {
                     val userLatLng = LatLng(location.latitude, location.longitude)
                     googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 17f))
-                    // Si quieres que el usuario vea su punto azul, puedes activar esto:
                     googleMap?.isMyLocationEnabled = true
                 } else {
                     moveCameraToDefault()
@@ -109,7 +130,7 @@ class MapsFragment : Fragment() {
     }
 
     private fun moveCameraToDefault() {
-        // Ejemplo: SC, Bolivia
+        // SC, Bolivia
         val bolivia = LatLng(-17.783327, -63.182140)
         googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(bolivia, 14f))
     }

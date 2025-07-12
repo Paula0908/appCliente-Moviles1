@@ -1,10 +1,12 @@
 package com.example.appcliente_moviles1.ui.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appcliente_moviles1.databinding.CitaItemBinding
 import com.example.appcliente_moviles1.models.CitaResponse
+import androidx.core.graphics.toColorInt
 
 class CitasAdapter(
     private var citas: List<CitaResponse>,
@@ -24,8 +26,24 @@ class CitasAdapter(
             // Mostrar estado concretado y no :p
             binding.lblEstadoCita.text = when (cita.status) {
                 1 -> "Concretada :3"
+                2 -> "Aceptada :D"
+                3 -> "Completada :)"
                 else -> "No concretada :P"
             }
+            binding.lblEstadoCita.setTextColor(when (cita.status) {
+                1 -> "#6d23db".toColorInt() // Concretada 6d23db
+                2 -> "#23a9db".toColorInt() // Aceptada 23a9db
+                3 -> "#00c01b".toColorInt() // Completada 00c01b
+                else -> "#FF5252".toColorInt() // No concretada FF5252
+            })
+            binding.lblEstadoCita.setBackgroundColor(when (cita.status) {
+                1 -> "#146d23db".toColorInt()// Concretada 146d23db
+                2 -> "#1423a9db".toColorInt()// Aceptada 1423a9db
+                3 -> "#1400c01b".toColorInt()// Completada 1400c01b
+                else -> "#14FF5252".toColorInt()// No concretada 14FF5252
+            })
+
+
 
             // Listener para la cita
             binding.root.setOnClickListener {
