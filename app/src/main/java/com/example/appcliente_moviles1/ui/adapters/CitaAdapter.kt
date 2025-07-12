@@ -14,7 +14,7 @@ class CitasAdapter(
     inner class CitaViewHolder(val binding: CitaItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(cita: CitaResponse) {
             // Mostrar nombre completo del worker
-            val nombre = cita.worker?.user?.let { "${it.name} ${it.last_name}" } ?: "Trabajador"
+            val nombre = cita.worker?.user?.let { "${it.name} ${it.profile.last_name}" } ?: "Trabajador"
             binding.lblNombreTrabajador.text = nombre
 
             // Mostrar fecha y hora TwT

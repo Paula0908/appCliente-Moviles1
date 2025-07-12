@@ -50,7 +50,7 @@ class ChatFragment : Fragment() {
 
         viewModel.trabajador.observe(viewLifecycleOwner) { trabajador ->
             if (trabajador != null) {
-                binding.lblUserChat.text = "${trabajador.user.name} ${trabajador.user.last_name}"
+                binding.lblUserChat.text = "${trabajador.user.name} ${trabajador.user.profile.last_name}"
                 if (!trabajador.picture_url.isNullOrBlank() && trabajador.picture_url != "null") {
                     Glide.with(binding.fotoUser.context)
                         .load(trabajador.picture_url)
@@ -70,7 +70,7 @@ class ChatFragment : Fragment() {
 
         viewModel.cargarMensajes(requireContext(), citaId)
         viewModel.mensajes.observe(viewLifecycleOwner) { mensajes ->
-            adapter?.updateMensajes(mensajes, trabajadorId)
+            adapter?.updateMensajes(mensajes, viewModel.trabajador.value?.user?.id ?: trabajadorId)
             if (mensajes.isNotEmpty()) {
                 binding.rvMensajes.scrollToPosition(mensajes.size - 1)
             }
@@ -79,7 +79,7 @@ class ChatFragment : Fragment() {
         binding.btnSendMensaje.setOnClickListener {
             val texto = binding.inputMensaje.text.toString().trim()
             if (texto.isNotEmpty()) {
-                viewModel.enviarMensaje(requireContext(), citaId, texto, trabajadorId)
+                viewModel.enviarMensaje(requireContext(), citaId, texto, viewModel.trabajador.value?.user?.id ?: trabajadorId)
                 binding.inputMensaje.text.clear()
             }
         }

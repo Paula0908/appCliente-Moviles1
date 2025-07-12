@@ -59,7 +59,7 @@ class TrabajadoresFragment : Fragment() {
             } else {
                 trabajadoresOriginales.filter {
                     (it.user.name ?: "").contains(busqueda, ignoreCase = true) ||
-                            (it.user.last_name ?: "").contains(busqueda, ignoreCase = true)
+                            (it.user.profile.last_name ?: "").contains(busqueda, ignoreCase = true)
                 }
 
             }

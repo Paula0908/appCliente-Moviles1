@@ -24,7 +24,7 @@ class TrabajadorAdapter(
     override fun onBindViewHolder(holder: TrabajadorViewHolder, position: Int) {
         val trabajador = trabajadores[position]
         holder.binding.apply {
-            lblTrabajadorName.text = "${trabajador.user.name} ${trabajador.user.last_name}"
+            lblTrabajadorName.text = "${trabajador.user.name} ${trabajador.user.profile.last_name}"
             if (trabajador.average_rating != null)
                 lblPromedio.text = "${trabajador.average_rating} ★"
             else

@@ -4,5 +4,5 @@ data class MeResponse(
     val id: Int,
     val name: String,
     val email: String,
-    val profile: Usuario
+    val profile: Profile
 )

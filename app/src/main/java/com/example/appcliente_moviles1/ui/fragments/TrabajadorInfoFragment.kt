@@ -90,7 +90,7 @@ class TrabajadorInfoFragment : Fragment() {
 
     private fun bindTrabajador(trabajador: Trabajador) {
         // Nombre completo
-        binding.lblNombreInfo.text = "${trabajador.user.name} ${trabajador.user.last_name}"
+        binding.lblNombreInfo.text = "${trabajador.user.name} ${trabajador.user.profile.last_name}"
 
         // Calificación promedio
         val rating = trabajador.average_rating?.toDoubleOrNull() ?: 0.0
