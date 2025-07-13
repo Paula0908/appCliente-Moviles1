@@ -1,4 +1,4 @@
-package com.example.appcliente_moviles1.viewmodels
+package com.example.appcliente_moviles1.ui.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.LiveData

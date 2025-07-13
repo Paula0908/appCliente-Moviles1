@@ -18,9 +18,7 @@ class ChatAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        // Si el receiver_id es el del trabajador, entonces es ENVIADO POR TI (el cliente)
-        // Si no, es RECIBIDO (te lo manda el trabajador)
-        return if (mensajes[position].receiver_id == trabajadorId) VIEW_TYPE_ENVIADO else VIEW_TYPE_RECIBIDO
+        return if (mensajes[position].sender_id == trabajadorId) VIEW_TYPE_RECIBIDO else VIEW_TYPE_ENVIADO
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

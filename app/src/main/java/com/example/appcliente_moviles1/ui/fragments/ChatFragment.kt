@@ -7,17 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.appcliente_moviles1.databinding.FragmentChatBinding
 import com.example.appcliente_moviles1.ui.adapters.ChatAdapter
-import com.example.appcliente_moviles1.viewmodels.ChatViewModel
-
+import com.example.appcliente_moviles1.ui.viewmodels.ChatViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 
 class ChatFragment : Fragment() {
+    private var pollingJob: Job? = null
 
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
@@ -59,8 +64,9 @@ class ChatFragment : Fragment() {
                 binding.fotoUser.setImageResource(android.R.drawable.sym_def_app_icon)
             }
         }
-
-        adapter = ChatAdapter(emptyList(), trabajadorId)
+        // cambio que se puede hacer mejor pero ya lo hice asi :
+        val idParaChat = viewModel.trabajador.value?.user?.id
+        adapter = ChatAdapter(emptyList(), idParaChat ?: 0)
         binding.rvMensajes.adapter = adapter
         binding.rvMensajes.layoutManager = LinearLayoutManager(requireContext())
 
@@ -96,7 +102,15 @@ class ChatFragment : Fragment() {
                 }
                 .show()
         }
-
+        startPollingMensajes(citaId)
+    }
+    private fun startPollingMensajes(citaId: Int) {
+        pollingJob = viewLifecycleOwner.lifecycleScope.launch {
+            while (isActive) {
+                viewModel.cargarMensajes(requireContext(), citaId)
+                delay(2000) // 2 segundos
+            }
+        }
     }
     override fun onDestroyView() {
         _binding = null
