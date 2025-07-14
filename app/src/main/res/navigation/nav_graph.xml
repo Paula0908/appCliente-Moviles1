@@ -82,6 +82,12 @@
         <action
             android:id="@+id/action_MisCitasFragment_to_ChatFragment"
             app:destination="@id/ChatFragment" />
+        <action
+            android:id="@+id/action_MisCitasFragment_to_ReviewFragment"
+            app:destination="@id/ReviewFragment" />
+        <action
+            android:id="@+id/action_MisCitasFragment_to_LoginFragment"
+            app:destination="@id/LoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/MapsFragment"
@@ -108,5 +114,20 @@
         <argument
             android:name="citaId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_FechaHoraFragment_to_MisCitasFragment"
+            app:destination="@id/MisCitasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ReviewFragment"
+        android:name="com.example.appcliente_moviles1.ui.fragments.ReviewFragment"
+        android:label="fragment_review"
+        tools:layout="@layout/fragment_review" >
+        <argument
+            android:name="citaId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_ReviewFragment_to_CategoriasFragment"
+            app:destination="@id/CategoriasFragment" />
     </fragment>
 </navigation>

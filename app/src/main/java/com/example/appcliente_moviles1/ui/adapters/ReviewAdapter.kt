@@ -21,11 +21,14 @@ class ReviewAdapter(private val reviews: List<Review>) :
 
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
         val review = reviews[position]
-        holder.binding.lblReviewerName.text = review.user.let {
-            "${it.name} ${it.last_name}"
+
+        holder.binding.lblReviewerName.text = when {
+            review.user != null -> "${review.user.name} ${review.user.last_name}"
+            review.user_id != null -> "Usuario ${review.user_id}"
+            else -> "Usuario desconocido"
         }
         holder.binding.lblReview.text = review.comment ?: "No hay comentario"
-        holder.binding.lblReviewRating.text ="${review.rating} ★"
+        holder.binding.lblReviewRating.text = "${review.rating} ★"
     }
 
     override fun getItemCount() = reviews.size

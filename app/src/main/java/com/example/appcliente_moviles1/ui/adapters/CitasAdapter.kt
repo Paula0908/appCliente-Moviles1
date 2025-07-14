@@ -20,7 +20,7 @@ class CitasAdapter(
 
             // Mostrar fecha y hora TwT
             binding.lblFecha.text = cita.appointment_date ?: "--/--/----"
-            binding.textView4.text = cita.appointment_time ?: "--:--"
+            binding.lblHora.text = cita.appointment_time ?: "--:--"
 
             // Mostrar estado concretado y no :p
             binding.lblEstadoCita.text = when (cita.status) {

@@ -7,6 +7,7 @@ import com.example.appcliente_moviles1.models.CrearCitaBody
 import com.example.appcliente_moviles1.models.LoginResponse
 import com.example.appcliente_moviles1.models.MeResponse
 import com.example.appcliente_moviles1.models.RegistroResponse
+import com.example.appcliente_moviles1.models.ReviewBody
 import com.example.appcliente_moviles1.models.Trabajador
 import com.example.appcliente_moviles1.models.chat.ChatMessage
 import com.example.appcliente_moviles1.models.chat.SendMessageBody
@@ -86,7 +87,12 @@ interface ClienteApi {
         @Path("appointmentId") appointmentId: Int,
         @Body datos: ConcretarCitaInfo
     ): CitaResponse
-
+    // Endpoint para agregar review
+    @POST("appointments/{appointmentId}/review")
+    suspend fun agregarReview(
+        @Path("appointmentId") appointmentId: Int,
+        @Body body: ReviewBody
+    )
 }
 
 

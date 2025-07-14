@@ -7,11 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.appcliente_moviles1.R
 import com.example.appcliente_moviles1.databinding.FragmentMisCitasBinding
 import com.example.appcliente_moviles1.ui.adapters.CitasAdapter
 import com.example.appcliente_moviles1.ui.viewmodels.MisCitasViewModel
+import com.example.appcliente_moviles1.utils.clearToken
+import kotlinx.coroutines.launch
 
 class MisCitasFragment : Fragment() {
     private var _binding: FragmentMisCitasBinding? = null
@@ -29,12 +33,40 @@ class MisCitasFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.btnCerrarSesion.setOnClickListener {
+            cerrarSesion()
+        }
         adapter = CitasAdapter(emptyList()) { cita ->
             Toast.makeText(requireContext(), "ID de la cita: ${cita.id}", Toast.LENGTH_SHORT).show()
             if (cita.status == 3) {
-                Toast.makeText(requireContext(), "cita: ${cita.id} compeltada", Toast.LENGTH_SHORT).show()
-            }else{
+                // Mostrar dialog
+                val builder = android.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Cita completada")
+                    .setMessage("¿Qué deseas hacer?")
+                    .setPositiveButton("Ir al chat") { dialog, _ ->
+                        // Navega al chat de esta cita
+                        val action = MisCitasFragmentDirections
+                            .actionMisCitasFragmentToChatFragment(
+                                citaId = cita.id,
+                                trabajadorId = cita.worker_id
+                            )
+                        findNavController().navigate(action)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Agregar reseña") { dialog, _ ->
+                        // Navega a la pantalla de reseña, ajústalo a tu fragment real
+                        val action = MisCitasFragmentDirections
+                            .actionMisCitasFragmentToReviewFragment(
+                                citaId = cita.id
+                             )
+                        findNavController().navigate(action)
+                        dialog.dismiss()
+                    }
+                    .setNeutralButton("Cancelar") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                builder.show()
+            } else {
                 val action = MisCitasFragmentDirections
                     .actionMisCitasFragmentToChatFragment(
                         citaId = cita.id,
@@ -42,7 +74,6 @@ class MisCitasFragment : Fragment() {
                     )
                 findNavController().navigate(action)
             }
-     
         }
 
         binding.rvMisCitas.layoutManager = LinearLayoutManager(requireContext())
@@ -58,7 +89,14 @@ class MisCitasFragment : Fragment() {
 
         viewModel.getMisCitas(requireContext())
     }
-
+    private fun cerrarSesion() {
+        lifecycleScope.launch {
+            clearToken(requireContext())
+            findNavController().navigate(
+                R.id.action_MisCitasFragment_to_LoginFragment
+            )
+        }
+    }
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()

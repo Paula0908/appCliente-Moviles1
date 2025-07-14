@@ -8,6 +8,7 @@ import com.example.appcliente_moviles1.models.CrearCitaBody
 import com.example.appcliente_moviles1.models.LoginResponse
 import com.example.appcliente_moviles1.models.MeResponse
 import com.example.appcliente_moviles1.models.RegistroResponse
+import com.example.appcliente_moviles1.models.ReviewBody
 import com.example.appcliente_moviles1.models.Trabajador
 import com.example.appcliente_moviles1.models.chat.ChatMessage
 import com.example.appcliente_moviles1.models.chat.SendMessageBody
@@ -121,6 +122,24 @@ object ApiRepository {
             RetrofitRepository.authApi(context).concretarCita(appointmentId, body)
         } catch (e: Exception) {
             null
+        }
+    }
+    // AGREGAR REVIEW
+    suspend fun agregarReview(
+        context: Context,
+        citaId: Int,
+        rating: Int,
+        comment: String?,
+        isDone: Int
+    ): Boolean {
+        return try {
+            val response = RetrofitRepository.authApi(context).agregarReview(
+                citaId,
+                ReviewBody(rating, comment, isDone)
+            )
+            true
+        } catch (e: Exception) {
+            false
         }
     }
 

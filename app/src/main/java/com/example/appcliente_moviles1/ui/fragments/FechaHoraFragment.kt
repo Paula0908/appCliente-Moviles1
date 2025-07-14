@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.appcliente_moviles1.databinding.FragmentFechaHoraBinding
 import com.example.appcliente_moviles1.ui.viewmodels.FechaHoraViewModel
 import java.util.*
@@ -56,7 +57,11 @@ class FechaHoraFragment : Fragment() {
         viewModel.citaResponse.observe(viewLifecycleOwner) { response ->
             response?.let {
                 Toast.makeText(requireContext(), "¡Cita concretada!", Toast.LENGTH_SHORT).show()
-                // Navega o haz lo que quieras aquí (ej: regresar, mostrar detalles, etc)
+                // Navegar a la pantalla de citas
+                val action = FechaHoraFragmentDirections
+                    .actionFechaHoraFragmentToMisCitasFragment()
+                findNavController().navigate(action)
+
             }
         }
 
